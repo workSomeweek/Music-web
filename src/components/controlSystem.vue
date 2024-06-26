@@ -11,7 +11,9 @@
           <system-menus :menus="menus"></system-menus>
         </el-menu>
       </div>
-      <div class="system_card_container"></div>
+      <div class="system_card_container">
+        <router-view></router-view>
+      </div>
     </div>
 </template>
 <script setup lang="ts">

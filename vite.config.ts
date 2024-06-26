@@ -5,6 +5,7 @@ import pxToViewport from 'postcss-px-to-viewport';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
+import {resolve} from "node:path";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -29,5 +30,17 @@ export default defineConfig({
       ]
     }
   },
-
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src')
+    }
+  },
+  server: {
+    port: 5174,
+    proxy: {
+      "/music-control-system/service": {
+        target: 'http://localhost:3000',
+      }
+    }
+  }
 })
