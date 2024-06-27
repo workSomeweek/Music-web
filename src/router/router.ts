@@ -1,14 +1,36 @@
-import {createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw} from "vue-router";
+import {createRouter, createWebHashHistory, RouteRecordRaw} from "vue-router";
+import CommonService from "../common/commonService.ts";
 
+export default class RouterCustom {
+  private commonRoutes = [
+    {
+      path: '/setting',
+      children: [
+        {
+          path: '/setting/menus',
+          name: 'Menus',
+          component: () => import("../views/menusOperation.vue")
+        }
+      ]
+    }
+  ]
+  private routes = [
+    ...this.commonRoutes
+  ] as RouteRecordRaw[];
 
-const routes = [
-  {
-    path: '/',
-    component: () => import("@/views/homeView.vue"),
+  getBusinessRoute = () => {
+    return CommonService.get("/system/menus/list/get/all", null).then(res => {
+      console.log(res);
+      return this.init()
+    })
   }
-] as RouteRecordRaw[];
 
-export default createRouter({
-  history: createWebHashHistory(),
-  routes
-})
+  init(){
+   return createRouter({
+      history: createWebHashHistory(),
+      routes: this.routes
+    })
+  }
+
+}
+
